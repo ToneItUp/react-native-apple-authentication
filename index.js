@@ -8,14 +8,14 @@ export const RNSignInWithAppleButton = requireNativeComponent('RNCSignInWithAppl
 export const SignInWithAppleButton = (buttonStyle, callBack) => {
   if(Platform.OS === 'ios'){
     return <RNSignInWithAppleButton style={buttonStyle} onPress={async () => {
-    
+
         await AppleAuthentication.requestAsync({
           requestedScopes: [AppleAuthentication.Scope.FULL_NAME, AppleAuthentication.Scope.EMAIL],
         }).then((response) => {
           callBack(response) //Display response
           }, (error) => {
             callBack(error) //Display error
-           
+
         });
 
   }} />
@@ -23,7 +23,17 @@ export const SignInWithAppleButton = (buttonStyle, callBack) => {
   return null
 
   }
-   
+
+}
+
+export const AppleAuthenticationRequest = async (cb) => {
+  await AppleAuthentication.requestAsync({
+    requestedScopes: [AppleAuthentication.Scope.FULL_NAME, AppleAuthentication.Scope.EMAIL],
+  }).then((response) => {
+    cb(response)
+    }, (error) => {
+      cb(error)
+  });
 }
 
 export default AppleAuthentication;
